@@ -2,6 +2,10 @@ using System.Data;
 using Microsoft.Data.SqlClient;
 using TestDevCom.Data;
 using TestDevCom.Services;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,13 +19,16 @@ builder.Services.AddScoped<IDbConnection>(sp =>
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
