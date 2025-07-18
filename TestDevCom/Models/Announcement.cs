@@ -1,4 +1,6 @@
-﻿namespace TestDevCom.Models
+﻿using TestDevCom.Enums;
+
+namespace TestDevCom.Models
 {
     public class Announcement
     {
@@ -7,7 +9,7 @@
         public string Description { get; set; } = null!;
         public DateTime CreatedDate { get; set; }
         public bool Status { get; set; }
-        public string Category { get; set; } = null!;
-        public string SubCategory { get; set; } = null!;
+        public Category Category { get; set; }
+        public SubCategory SubCategory { get; set; }
     }
 }
