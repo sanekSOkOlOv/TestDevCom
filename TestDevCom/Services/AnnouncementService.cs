@@ -16,10 +16,10 @@ namespace TestDevCom.Services
         public async Task<IEnumerable<Announcement>> GetAllAsync(string? category, string? subCategory)
         {
             return await _executor.QueryAsync("storproc_GetAnnouncements", AnnouncementMapper.Map, new()
-        {
-            { "@Category", category },
-            { "@SubCategory", subCategory }
-        });
+            {
+                { "@Category", string.IsNullOrWhiteSpace(category) ? null : category },
+                { "@SubCategory", string.IsNullOrWhiteSpace(subCategory) ? null : subCategory }
+            });
         }
 
         public async Task<Announcement?> GetByIdAsync(int id)

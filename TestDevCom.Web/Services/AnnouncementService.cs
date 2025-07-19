@@ -17,6 +17,27 @@ public class AnnouncementService : IAnnouncementService
         return await _client.GetFromJsonAsync<List<Announcement>>("api/Announcement") ?? new();
     }
 
+    public async Task<IEnumerable<Announcement>> GetAllAsync(string? category = null, string? subCategory = null)
+    {
+        var query = new List<string>();
+
+        if (!string.IsNullOrEmpty(category))
+            query.Add($"category={Uri.EscapeDataString(category)}");
+
+        if (!string.IsNullOrEmpty(subCategory))
+            query.Add($"subCategory={Uri.EscapeDataString(subCategory)}");
+
+        string queryString = query.Count > 0 ? "?" + string.Join("&", query) : "";
+
+        var response = await _client.GetAsync($"api/Announcement{queryString}");
+
+        if (!response.IsSuccessStatusCode)
+            return new List<Announcement>();
+
+        return await response.Content.ReadFromJsonAsync<List<Announcement>>() ?? new();
+    }
+
+
     public async Task<Announcement?> GetByIdAsync(int id)
     {
         var response = await _client.GetAsync($"api/Announcement/{id}");

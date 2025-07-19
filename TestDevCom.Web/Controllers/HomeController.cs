@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Threading.Tasks;
+using TestDevCom.Web.Enums;
 using TestDevCom.Web.Models;
 using TestDevCom.Web.Services;
 
@@ -16,11 +17,23 @@ namespace TestDevCom.Web.Controllers
             _service = service;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? category, string? subCategory)
         {
-            var items = await _service.GetAllAsync();
+            string? categoryName = null;
+
+            if (int.TryParse(category, out int catValue) &&
+                Enum.IsDefined(typeof(Category), catValue))
+            {
+                categoryName = Enum.GetName(typeof(Category), catValue);
+            }
+
+            var items = await _service.GetAllAsync(categoryName, subCategory);
+
+            ViewBag.SelectedCategory = category;
+            ViewBag.SelectedSubCategory = subCategory;
             return View(items);
         }
+
 
         [HttpGet]
         public IActionResult Create()
@@ -49,11 +62,6 @@ namespace TestDevCom.Web.Controllers
 
             return View(item);
         }
-        //[HttpGet]
-        //public IActionResult Edit(int id)
-        //{
-        //    return Content($"ID: {id}");
-        //}
 
         [HttpPost]
         public async Task<IActionResult> Edit(Announcement model)
