@@ -22,6 +22,18 @@ namespace TestDevCom.Services
         });
         }
 
+        public async Task<Announcement?> GetByIdAsync(int id)
+        {
+            var result = await _executor.QueryAsync(
+                "storproc_GetAnnouncementById",
+                AnnouncementMapper.Map,
+                new() { { "@Id", id } }
+            );
+
+            return result.FirstOrDefault();
+        }
+
+
         public async Task AddAsync(Announcement ann)
         {
             await _executor.ExecuteAsync("storproc_InsertAnnouncement", new()

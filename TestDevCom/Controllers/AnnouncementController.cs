@@ -23,6 +23,17 @@ namespace BulletinBoard.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var announcement = await _service.GetByIdAsync(id);
+            if (announcement == null)
+                return NotFound();
+
+            return Ok(announcement);
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Announcement announcement)
         {
