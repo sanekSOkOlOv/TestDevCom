@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TestDevCom.Enums;
 using TestDevCom.Models;
 using TestDevCom.Services;
 
@@ -25,6 +26,11 @@ namespace BulletinBoard.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Announcement announcement)
         {
+            if (!CategoryConfig.IsSubcategoryValid(announcement.Category, announcement.SubCategory))
+                return BadRequest($"Підкатегорія '{announcement.SubCategory}' не відповідає категорії '{announcement.Category}'.");
+            
+
+
             await _service.AddAsync(announcement);
             return Ok();
         }
@@ -34,6 +40,10 @@ namespace BulletinBoard.API.Controllers
         {
             if (id != announcement.Id)
                 return BadRequest("ID в URL не збігається з ID в тілі запиту");
+
+            if (!CategoryConfig.IsSubcategoryValid(announcement.Category, announcement.SubCategory))
+                return BadRequest($"Підкатегорія '{announcement.SubCategory}' не відповідає категорії '{announcement.Category}'.");
+            
 
             await _service.UpdateAsync(announcement);
             return NoContent();

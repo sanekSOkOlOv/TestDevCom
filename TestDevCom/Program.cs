@@ -1,9 +1,10 @@
 using System.Data;
+using System.Text.Json.Serialization;
 using Microsoft.Data.SqlClient;
-using TestDevCom.Data;
-using TestDevCom.Services;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore;
+using TestDevCom.Data;
+using TestDevCom.Services;
 
 
 
@@ -12,6 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
+
 builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
 builder.Services.AddScoped<ISqlExecutor, SqlExecutor>();
 builder.Services.AddScoped<IDbConnection>(sp =>

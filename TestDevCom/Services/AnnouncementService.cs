@@ -29,8 +29,8 @@ namespace TestDevCom.Services
             { "@Title", ann.Title },
             { "@Description", ann.Description },
             { "@Status", ann.Status },
-            { "@Category", ann.Category },
-            { "@SubCategory", ann.SubCategory }
+            { "@Category", ann.Category.ToString() },
+            { "@SubCategory", ann.SubCategory.ToString() }
         });
         }
 

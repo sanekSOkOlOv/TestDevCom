@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using TestDevCom.Enums;
 using TestDevCom.Models;
 
 namespace TestDevCom.Data
@@ -14,9 +15,10 @@ namespace TestDevCom.Data
                 Description = reader["Description"].ToString()!,
                 CreatedDate = (DateTime)reader["CreatedDate"],
                 Status = (bool)reader["Status"],
-                Category = reader["Category"].ToString()!,
-                SubCategory = reader["SubCategory"].ToString()!
+                Category = Enum.Parse<Category>(reader["Category"].ToString()!),
+                SubCategory = Enum.Parse<SubCategory>(reader["SubCategory"].ToString()!)
             };
         }
     }
+
 }
