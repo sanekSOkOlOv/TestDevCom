@@ -1,0 +1,25 @@
+﻿@model List<TestDevCom.Web.Models.Announcement>
+
+<h2>Список оголошень</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Назва</th>
+            <th>Опис</th>
+            <th>Категорія</th>
+            <th>Підкатегорія</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Description</td>
+                <td>@item.Category</td>
+                <td>@item.SubCategory</td>
+            </tr>
+        }
+    </tbody>
+</table>
