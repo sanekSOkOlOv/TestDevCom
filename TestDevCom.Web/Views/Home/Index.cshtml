@@ -15,6 +15,7 @@
             <th>Опис</th>
             <th>Категорія</th>
             <th>Підкатегорія</th>
+			<th>Дата створення</th>
             <th>Статус</th>
             <th>Дії</th>
         </tr>
@@ -27,6 +28,7 @@
                 <td>@item.Description</td>
                 <td>@item.Category</td>
                 <td>@item.SubCategory</td>
+                <td>@item.CreatedDate</td>
                 <td>@(item.Status ? "Активне" : "Неактивне")</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Редагувати</a>
