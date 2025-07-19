@@ -1,3 +1,5 @@
+using TestDevCom.Web.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +8,7 @@ builder.Services.AddHttpClient("TestDevComAPI", client =>
 {
     client.BaseAddress = new Uri("https://localhost:44316");
 });
+builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
 
 
 var app = builder.Build();

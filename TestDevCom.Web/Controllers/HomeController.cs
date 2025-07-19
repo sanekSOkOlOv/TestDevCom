@@ -2,32 +2,65 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Threading.Tasks;
-using TestDevCom.Web.Models; 
+using TestDevCom.Web.Models;
+using TestDevCom.Web.Services;
 
 namespace TestDevCom.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IHttpClientFactory _clientFactory;
+        private readonly IAnnouncementService _service;
 
-        public HomeController(IHttpClientFactory clientFactory)
+        public HomeController(IAnnouncementService service)
         {
-            _clientFactory = clientFactory;
+            _service = service;
         }
 
         public async Task<IActionResult> Index()
         {
-            var client = _clientFactory.CreateClient("TestDevComAPI");
-            var response = await client.GetAsync("/api/Announcement");
+            var items = await _service.GetAllAsync();
+            return View(items);
+        }
 
-            if (response.IsSuccessStatusCode)
-            {
-                var json = await response.Content.ReadAsStringAsync();
-                var announcements = JsonConvert.DeserializeObject<List<Announcement>>(json);
-                return View(announcements);
-            }
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
 
-            return View(new List<Announcement>());
+        [HttpPost]
+        public async Task<IActionResult> Create(Announcement model)
+        {
+            if (await _service.CreateAsync(model))
+                return RedirectToAction("Index");
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var item = await _service.GetByIdAsync(id);
+            if (item == null) return NotFound();
+
+            return View(item);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Announcement model)
+        {
+            if (await _service.UpdateAsync(model))
+                return RedirectToAction("Index");
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _service.DeleteAsync(id);
+            return RedirectToAction("Index");
         }
     }
+
 }
