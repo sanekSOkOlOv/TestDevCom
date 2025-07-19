@@ -39,31 +39,42 @@
 </form>
 
 @section Scripts {
+
+
     <script>
+
+        function formatEnumValue(value) {
+            return value
+                .replace(/_/g, ' ')
+                .replace(/([a-zа-яґєії])([A-ZА-ЯҐЄІЇ])/g, '$1 $2');
+        }
+
         document.getElementById("category").addEventListener("change", async function () {
             const selectedCategory = this.value;
             const subcategorySelect = document.getElementById("subcategory");
 
-            // Очистити підкатегорії
             subcategorySelect.innerHTML = "<option disabled selected>Завантаження...</option>";
 
             try {
-               fetch(`https://localhost:44316/api/Category/subcategories/byid/${selectedCategory}`);
+                const response = await fetch(`https://localhost:44316/api/Category/subcategories/byid/${selectedCategory}`);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
 
                 const data = await response.json();
 
-                subcategorySelect.innerHTML = ""; // Очистити
+                subcategorySelect.innerHTML = ""; 
 
                 if (data.length === 0) {
                     subcategorySelect.innerHTML = "<option disabled selected>Немає підкатегорій</option>";
                     return;
                 }
 
-                // Заповнити новими
                 data.forEach(function (sub) {
                     const option = document.createElement("option");
                     option.value = sub;
-                    option.text = sub;
+                    option.text = formatEnumValue(sub);
                     subcategorySelect.appendChild(option);
                 });
             } catch (error) {
