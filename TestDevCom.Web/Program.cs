@@ -8,8 +8,9 @@ builder.Services.AddHttpClient("TestDevComAPI", client =>
 {
     client.BaseAddress = new Uri("https://localhost:44316");
 });
-builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
 
+
+builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
 
 var app = builder.Build();
 

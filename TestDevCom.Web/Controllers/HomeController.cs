@@ -41,10 +41,19 @@ namespace TestDevCom.Web.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var item = await _service.GetByIdAsync(id);
-            if (item == null) return NotFound();
+            if (item == null)
+            {
+                Console.WriteLine($"Не знайдено оголошення з ID: {id}");
+                return NotFound();
+            }
 
             return View(item);
         }
+        //[HttpGet]
+        //public IActionResult Edit(int id)
+        //{
+        //    return Content($"ID: {id}");
+        //}
 
         [HttpPost]
         public async Task<IActionResult> Edit(Announcement model)

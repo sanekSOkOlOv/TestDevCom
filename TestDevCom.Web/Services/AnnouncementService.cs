@@ -14,12 +14,12 @@ public class AnnouncementService : IAnnouncementService
 
     public async Task<IEnumerable<Announcement>> GetAllAsync()
     {
-        return await _client.GetFromJsonAsync<List<Announcement>>("/api/Announcement") ?? new();
+        return await _client.GetFromJsonAsync<List<Announcement>>("api/Announcement") ?? new();
     }
 
     public async Task<Announcement?> GetByIdAsync(int id)
     {
-        var response = await _client.GetAsync($"/api/Announcement/{id}");
+        var response = await _client.GetAsync($"api/Announcement/{id}");
         if (!response.IsSuccessStatusCode) return null;
 
         return await response.Content.ReadFromJsonAsync<Announcement>();
@@ -27,19 +27,22 @@ public class AnnouncementService : IAnnouncementService
 
     public async Task<bool> CreateAsync(Announcement model)
     {
-        var response = await _client.PostAsJsonAsync("/api/Announcement", model);
+        var response = await _client.PostAsJsonAsync("api/Announcement", model);
         return response.IsSuccessStatusCode;
     }
 
     public async Task<bool> UpdateAsync(Announcement model)
     {
-        var response = await _client.PutAsJsonAsync($"/api/Announcement/{model.Id}", model);
+        Console.WriteLine($"BaseAddress: {_client.BaseAddress}");
+        Console.WriteLine($"Final URI: {_client.BaseAddress}api/Announcement/{model.Id}");
+
+        var response = await _client.PutAsJsonAsync($"api/Announcement/{model.Id}", model);
         return response.IsSuccessStatusCode;
     }
 
     public async Task<bool> DeleteAsync(int id)
     {
-        var response = await _client.DeleteAsync($"/api/Announcement/{id}");
+        var response = await _client.DeleteAsync($"api/Announcement/{id}");
         return response.IsSuccessStatusCode;
     }
 }
