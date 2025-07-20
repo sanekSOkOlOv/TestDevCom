@@ -72,7 +72,7 @@
             subcategorySelect.innerHTML = "<option disabled selected>Завантаження...</option>";
 
             try {
-                const response = await fetch(`https://localhost:44316/api/Category/subcategories/byid/${selectedCategory}`);
+                const response = await fetch(`${apiBaseUrl}api/Category/subcategories/byid/${selectedCategory}`);
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);

@@ -54,9 +54,6 @@ public class AnnouncementService : IAnnouncementService
 
     public async Task<bool> UpdateAsync(Announcement model)
     {
-        Console.WriteLine($"BaseAddress: {_client.BaseAddress}");
-        Console.WriteLine($"Final URI: {_client.BaseAddress}api/Announcement/{model.Id}");
-
         var response = await _client.PutAsJsonAsync($"api/Announcement/{model.Id}", model);
         return response.IsSuccessStatusCode;
     }

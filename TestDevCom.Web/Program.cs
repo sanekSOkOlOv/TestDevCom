@@ -1,12 +1,13 @@
 using TestDevCom.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+var apiBaseUrl = builder.Configuration["ApiBaseUrl"];
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient("TestDevComAPI", client =>
-{
-    client.BaseAddress = new Uri("https://localhost:44316");
+{   
+    client.BaseAddress = new Uri(apiBaseUrl!);
 });
 
 
