@@ -1,7 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using TestDevCom.Web.Enums;
 using TestDevCom.Web.Models;
 using TestDevCom.Web.Services;
@@ -34,13 +35,14 @@ namespace TestDevCom.Web.Controllers
             return View(items);
         }
 
-
+        [Authorize]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(Announcement model)
         {
@@ -50,6 +52,7 @@ namespace TestDevCom.Web.Controllers
             return View(model);
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -63,6 +66,7 @@ namespace TestDevCom.Web.Controllers
             return View(item);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Edit(Announcement model)
         {
@@ -72,6 +76,7 @@ namespace TestDevCom.Web.Controllers
             return View(model);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {

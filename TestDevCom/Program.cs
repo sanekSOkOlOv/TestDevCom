@@ -35,7 +35,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend",
         policy =>
         {
-            policy.WithOrigins("https://localhost:44366")
+            policy.WithOrigins("https://localhost:44366", "https://testdevcomfront-agefbxf7aehjf8hj.canadacentral-01.azurewebsites.net")
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
